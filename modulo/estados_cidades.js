@@ -22494,7 +22494,10 @@ const getListaDeEstados = function() {
 
 const getDadosEstados = function(estado) {
     let novoArray = [];
+    let status = false
+        //if (status) {
     estadosCidades.estados.forEach(function(estados) {
+        status = true;
         // console.log(estados)
         let uf = estados.sigla
         let desscricao = estados.nome
@@ -22512,11 +22515,16 @@ const getDadosEstados = function(estado) {
     let estadoFiltrado = novoArray.filter(function(objeto) {
         return objeto.uf === estado.toUpperCase();
     });
+    // } else {
+    //   return status = false
+    //}
+
     return estadoFiltrado
 
 }
 
 //getDadosEstados("sp")
+//console.log(getDadosEstados('sp'))
 
 const getCapitalEstados = function(capital) {
     let novoArray = []
