@@ -176,11 +176,11 @@ app.get('/estado/regiao/:uf', cors(), async function(request, response, next) {
         response.json({ message: "Não é possivel processar a requisição, pois a sigla do Estado não foi informada ou não atende a quantidade de caracteres(2 digitos)" });
 
     } else {
-        let regiao = estadosCidades.getEstadosRegiaoo(regiao)
-        if (regiao) {
+        let estado = estadosCidades.getEstadosRegiao(regiao)
+        if (estado) {
             response.status(200) //estado encontrado
                 //  statusCode = 200
-            response.json(regiao)
+            response.json(estado)
                 //  dadosEstado = estado
         } else {
             response.status(404); // estado nao encontrado
