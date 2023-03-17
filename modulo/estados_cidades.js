@@ -22523,6 +22523,7 @@ const getDadosEstados = function(estado) {
 
 }
 
+
 //getDadosEstados("sp")
 //console.log(getDadosEstados('sp'))
 
@@ -22552,19 +22553,22 @@ const getCapitalEstados = function(capital) {
 
 
 
-function getEstadosRegiao(regiaopais) {
-    let JsonEstados = {}
-    let visualizarestados = []
+function getEstadosRegiao(regiao) {
+    let listaEstadosJson = {}
+    let lista = []
+    let regiaoBrasil = regiao[0].toUpperCase() + regiao.substring(1).toLowerCase()
 
-    estadosCidades.estados.forEach(function(estado) {
-        if (estado.regiao == regiaopais) {
-            visualizarestados.push(estado.sigla, estado.nome, estado.capital)
+    estadosCidades.estados.forEach(estadosForEach => {
+
+        if (regiaoBrasil == estadosForEach.regiao) {
+
+            lista.push({ uf: estadosForEach.sigla, descricao: estadosForEach.nome })
         }
     })
-    JsonEstados = { regiao: regiaopais, estado: visualizarestados }
-    return JsonEstados
+    listaEstadosJson.estados = lista
 
 
+    return (listaEstadosJson.estados).length != 0 ? listaEstadosJson : false
 }
 //console.log(getEstadosRegiao('Sudeste'))
 
@@ -22605,10 +22609,59 @@ function getEstadosRegiao(regiaopais) {
 
 // getEstadosRegiao('sul')
 
+function getCapitalPais() {
+
+    let listaEstadosJson = {}
+    let lista = []
+
+    estadosCidades.estados.forEach(estadosForEach => {
+
+        if (estadosForEach.capital_pais != undefined)
+            lista.push({
+                capital_atual: estadosForEach.capital_pais.capital,
+                uf: estadosForEach.sigla,
+                descricao: estadosForEach.nome,
+                capital: estadosForEach.capital,
+                regiao: estadosForEach.regiao,
+                capital_pais_ano_inicio: estadosForEach.capital_pais.ano_inicio,
+                capital_pais_ano_termino: estadosForEach.capital_pais.ano_fim
+            })
+        listaEstadosJson.capitais = lista
+    })
+    return lista.length != 0 ? listaEstadosJson : false
+
+
+}
+
+
+function getCidades(siglaEstado) {
+
+    let sigla = siglaEstado.toUpperCase()
+    let listaEstadosJson = {}
+    let lista = []
+
+    estadosCidades.estados.forEach(estadosForEach => {
+
+        if (sigla == estadosForEach.sigla) {
+            listaEstadosJson.uf = estadosForEach.sigla
+            listaEstadosJson.descricao = estadosForEach.nome
+            listaEstadosJson.quantidade_cidades = estadosForEach.cidades.length
+            estadosForEach.cidades.forEach(cidadesForEach => {
+                lista.push(cidadesForEach.nome)
+            })
+            listaEstadosJson.cidades = lista
+
+        }
+    })
+    return lista.length != 0 ? listaEstadosJson : false
+}
+//console.log(getCidades("AC"))
 module.exports = {
 
     getListaDeEstados,
     getDadosEstados,
     getCapitalEstados,
-    getEstadosRegiao
+    getEstadosRegiao,
+    getCidades,
+    getCapitalPais
 }
